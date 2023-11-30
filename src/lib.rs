@@ -1,4 +1,62 @@
 //! Single-side boolean deserializers.
+//!
+//! # Examples
+//!
+//! Supporting serde untagged enums where only one boolean value is valid, allowing fallthrough to
+//! the next variant. Avoids need to wrap all fields in `Option<_>` just in case feature is disabled.
+//!
+//! ```
+//! #[derive(Debug, serde::Deserialize)]
+//! struct Config {
+//!     feature: FeatureConfig,
+//! }
+//!
+//! #[derive(Debug, serde::Deserialize)]
+//! #[serde(untagged)]
+//! enum FeatureConfig {
+//!     Disabled {
+//!         enabled: serde_bool::False
+//!     },
+//!
+//!     Enabled {
+//!         #[serde(default)]
+//!         enabled: serde_bool::True,
+//!         key: String,
+//!         secret: String,
+//!     }
+//! }
+//!
+//! // disabled variant is matched
+//! let config = toml::from_str::<Config>(r#"
+//!     [feature]
+//!     enabled = false
+//! "#).unwrap();
+//! assert!(matches!(config.feature, FeatureConfig::Disabled { .. }));
+//!
+//! // if the type used `enabled: bool`, this would cause issues and require Option<_> wrappers plus
+//! // further validation... instead an error is returned immediately regarding the missing fields
+//! let config = toml::from_str::<Config>(r#"
+//!     [feature]
+//!     enabled = true
+//! "#).unwrap_err();
+//!
+//! // using a `#[serde(default)]` annotation makes `enabled = true` optional here
+//! let config = toml::from_str::<Config>(r#"
+//!     [feature]
+//!     key = "foo"
+//!     secret = "bar"
+//! "#).unwrap();
+//! assert!(matches!(config.feature, FeatureConfig::Enabled { .. }));
+//!
+//! // extra keys can exists in the disabled case, but as usual will not be captured
+//! let config = toml::from_str::<Config>(r#"
+//!     [feature]
+//!     enabled = false
+//!     key = "foo"
+//!     secret = "bar"
+//! "#).unwrap();
+//! assert!(matches!(config.feature, FeatureConfig::Disabled { .. }));
+//! ```
 
 #![no_std]
 #![deny(rust_2018_idioms, nonstandard_style, future_incompatible)]
