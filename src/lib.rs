@@ -1,3 +1,8 @@
+//! Single-side boolean deserializers.
+
+#![deny(rust_2018_idioms, nonstandard_style, future_incompatible)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 /// Type that only deserializes from the `true` boolean value.

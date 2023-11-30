@@ -2,9 +2,12 @@
 name = "serde-bool"
 version = "0.1.0"
 authors = ["Rob Ede <robjtede@icloud.com>"]
-description = "Single-side boolean deserializers."
+description = "Single-side boolean deserializers"
+categories = ["encoding"]
+keywords = ["serde", "utilities", "serialization", "deserialization"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
+rust-version = "1.56"
 
 [dependencies]
 serde = "1"
