@@ -119,16 +119,7 @@ mod tests {
         );
 
         serde_json::from_str::<Tru>(r#"{"foo": false}"#).unwrap_err();
-    }
-
-    #[test]
-    fn se_true() {
-        assert_eq!(
-            Tru { foo: True },
-            serde_json::from_str::<Tru>(r#"{"foo": true}"#).unwrap(),
-        );
-
-        serde_json::from_str::<Tru>(r#"{"foo": false}"#).unwrap_err();
+        serde_json::from_str::<Tru>(r#"{"foo": 42}"#).unwrap_err();
     }
 
     #[derive(Debug, Deserialize, PartialEq)]
@@ -144,5 +135,24 @@ mod tests {
         );
 
         serde_json::from_str::<Fal>(r#"{"foo": true}"#).unwrap_err();
+        serde_json::from_str::<Fal>(r#"{"foo": 42}"#).unwrap_err();
+    }
+
+    #[test]
+    fn ser() {
+        assert_eq!("true", serde_json::to_string(&True).unwrap());
+        assert_eq!("false", serde_json::to_string(&False).unwrap());
+    }
+
+    #[test]
+    fn as_bool() {
+        assert!(True.as_bool());
+        assert!(!False.as_bool());
+    }
+
+    #[test]
+    fn from() {
+        assert!(bool::from(True));
+        assert!(!bool::from(False));
     }
 }
