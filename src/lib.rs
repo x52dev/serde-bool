@@ -4,6 +4,19 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct True;
 
+impl True {
+    /// Returns `true`.
+    pub fn as_bool(self) -> bool {
+        true
+    }
+}
+
+impl From<True> for bool {
+    fn from(_: True) -> Self {
+        true
+    }
+}
+
 impl<'de> Deserialize<'de> for True {
     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
         if bool::deserialize(deserializer)? {
@@ -26,6 +39,19 @@ impl Serialize for True {
 /// Type that only deserializes from the `false` boolean value.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct False;
+
+impl False {
+    /// Returns `false`.
+    pub fn as_bool(self) -> bool {
+        false
+    }
+}
+
+impl From<False> for bool {
+    fn from(_: False) -> Self {
+        false
+    }
+}
 
 impl<'de> Deserialize<'de> for False {
     fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
