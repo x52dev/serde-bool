@@ -27,7 +27,7 @@ jobs:
         with:
           toolchain: '1.56'
 
-      - name: Test
+      - name: Check
         run: cargo check
 
   test:
