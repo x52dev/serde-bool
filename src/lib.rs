@@ -12,8 +12,8 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 ///
 /// ```
 /// assert_eq!(
-///     serde_bool::True,
-///     serde_json::from_str("true").unwrap(),
+///     serde_json::from_str::<serde_bool::True>("true").unwrap().as_bool(),
+///     true,
 /// );
 ///
 /// serde_json::from_str::<serde_bool::True>("false").unwrap_err();
@@ -24,7 +24,7 @@ pub struct True;
 
 impl True {
     /// Returns `true`.
-    pub fn as_bool(self) -> bool {
+    pub const fn as_bool(self) -> bool {
         true
     }
 }
@@ -32,6 +32,24 @@ impl True {
 impl From<True> for bool {
     fn from(_: True) -> Self {
         true
+    }
+}
+
+impl PartialEq<False> for True {
+    fn eq(&self, _: &False) -> bool {
+        false
+    }
+}
+
+impl PartialEq<bool> for True {
+    fn eq(&self, other: &bool) -> bool {
+        self.as_bool() == *other
+    }
+}
+
+impl PartialEq<True> for bool {
+    fn eq(&self, other: &True) -> bool {
+        *self == other.as_bool()
     }
 }
 
@@ -60,8 +78,8 @@ impl Serialize for True {
 ///
 /// ```
 /// assert_eq!(
-///     serde_bool::False,
-///     serde_json::from_str("false").unwrap(),
+///     serde_json::from_str::<serde_bool::False>("false").unwrap().as_bool(),
+///     false,
 /// );
 ///
 /// serde_json::from_str::<serde_bool::False>("true").unwrap_err();
@@ -72,7 +90,7 @@ pub struct False;
 
 impl False {
     /// Returns `false`.
-    pub fn as_bool(self) -> bool {
+    pub const fn as_bool(self) -> bool {
         false
     }
 }
@@ -80,6 +98,24 @@ impl False {
 impl From<False> for bool {
     fn from(_: False) -> Self {
         false
+    }
+}
+
+impl PartialEq<True> for False {
+    fn eq(&self, _: &True) -> bool {
+        false
+    }
+}
+
+impl PartialEq<bool> for False {
+    fn eq(&self, other: &bool) -> bool {
+        self.as_bool() == *other
+    }
+}
+
+impl PartialEq<False> for bool {
+    fn eq(&self, other: &False) -> bool {
+        *self == other.as_bool()
     }
 }
 
@@ -154,5 +190,42 @@ mod tests {
     fn from() {
         assert!(bool::from(True));
         assert!(!bool::from(False));
+    }
+
+    #[test]
+    fn eq() {
+        assert_eq!(True, True);
+        assert_eq!(True, true);
+        assert_eq!(true, True);
+        assert_eq!(False, False);
+        assert_eq!(False, false);
+        assert_eq!(false, False);
+
+        assert_ne!(True, False);
+        assert_ne!(True, false);
+        assert_ne!(False, True);
+        assert_ne!(false, True);
+
+        assert_ne!(False, True);
+        assert_ne!(False, true);
+        assert_ne!(True, False);
+        assert_ne!(true, False);
+    }
+
+    #[test]
+    fn formatting() {
+        let _ = format_args!("{:?}", True);
+        let _ = format_args!("{:?}", False);
+    }
+
+    #[test]
+    fn other_implementations() {
+        #![allow(clippy::default_constructed_unit_structs)]
+
+        assert_eq!(True.clone(), True);
+        assert_eq!(False.clone(), False);
+
+        assert_eq!(True::default(), True);
+        assert_eq!(False::default(), False);
     }
 }
