@@ -27,8 +27,16 @@ jobs:
         with:
           toolchain: '1.56'
 
+      - name: Install cargo-hack
+        uses: taiki-e/install-action@v2.21.23
+        with:
+          tool: cargo-hack
+
+      - name: Generate MSRV lockfile
+        run: cargo hack --remove-dev-deps generate-lockfile
+
       - name: Check
-        run: cargo check
+        run: cargo check --workspace --all-features
 
   test:
     name: Test
@@ -40,4 +48,4 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
 
       - name: Test
-        run: cargo test
+        run: cargo test --workspace --all-features
