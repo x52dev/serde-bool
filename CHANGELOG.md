@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.1
+
 - Implement `PartialEq<False>` for `True`, and vice-versa.
 - Implement `PartialEq<bool>` for `True` and `False`.
 - Implement `PartialEq<{True, False}>` for `bool`.
