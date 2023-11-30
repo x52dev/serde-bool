@@ -1,7 +1,10 @@
 {
     "cSpell.words": [
+        "codecov",
         "deserializers",
         "docsrs",
-        "serde"
+        "rdme",
+        "serde",
+        "struct"
     ]
 }
