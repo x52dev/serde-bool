@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "deserializers",
+        "docsrs",
         "serde"
     ]
 }

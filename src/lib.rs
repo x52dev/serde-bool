@@ -1,11 +1,24 @@
 //! Single-side boolean deserializers.
 
+#![no_std]
 #![deny(rust_2018_idioms, nonstandard_style, future_incompatible)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 /// Type that only deserializes from the `true` boolean value.
+///
+/// # Examples
+///
+/// ```
+/// assert_eq!(
+///     serde_bool::True,
+///     serde_json::from_str("true").unwrap(),
+/// );
+///
+/// serde_json::from_str::<serde_bool::True>("false").unwrap_err();
+/// serde_json::from_str::<serde_bool::True>("42").unwrap_err();
+/// ```
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct True;
 
@@ -42,6 +55,18 @@ impl Serialize for True {
 }
 
 /// Type that only deserializes from the `false` boolean value.
+///
+/// # Examples
+///
+/// ```
+/// assert_eq!(
+///     serde_bool::False,
+///     serde_json::from_str("false").unwrap(),
+/// );
+///
+/// serde_json::from_str::<serde_bool::False>("true").unwrap_err();
+/// serde_json::from_str::<serde_bool::False>("42").unwrap_err();
+/// ```
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct False;
 

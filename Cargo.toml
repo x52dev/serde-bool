@@ -3,14 +3,14 @@ name = "serde-bool"
 version = "0.1.0"
 authors = ["Rob Ede <robjtede@icloud.com>"]
 description = "Single-side boolean deserializers"
-categories = ["encoding"]
+categories = ["encoding", "no-std", "no-std::no-alloc"]
 keywords = ["serde", "utilities", "serialization", "deserialization"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
 rust-version = "1.56"
 
 [dependencies]
-serde = "1"
+serde = { version = "1", default-features = false }
 
 [dev-dependencies]
 serde = { version = "1", features = ["derive"] }

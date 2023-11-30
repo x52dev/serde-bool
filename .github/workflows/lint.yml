@@ -81,4 +81,4 @@ jobs:
 
       - name: Generate API diff
         run: |
-          cargo public-api --manifest-path ./confik/Cargo.toml diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
+          cargo public-api --manifest-path diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
