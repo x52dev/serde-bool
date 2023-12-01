@@ -1,4 +1,4 @@
-//! Single-side boolean deserializers.
+//! Single value, true or false, boolean deserializers.
 //!
 //! # Examples
 //!
