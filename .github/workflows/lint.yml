@@ -79,10 +79,10 @@ jobs:
         with:
           toolchain: nightly-2023-08-25
 
-      - uses: taiki-e/cache-cargo-install-action@v1.3.0
+      - uses: taiki-e/install-action@v2.25.9
         with:
           tool: cargo-public-api
 
       - name: Generate API diff
         run: |
-          cargo public-api --manifest-path diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
+          cargo public-api diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
