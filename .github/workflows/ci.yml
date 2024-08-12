@@ -28,7 +28,7 @@ jobs:
           toolchain: '1.56'
 
       - name: Install cargo-hack
-        uses: taiki-e/install-action@v2.42.17
+        uses: taiki-e/install-action@v2.42.22
         with:
           tool: cargo-hack
 
