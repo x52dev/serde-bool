@@ -28,7 +28,7 @@ jobs:
           components: clippy
 
       - name: Install cargo-hack
-        uses: taiki-e/install-action@v2.48.1
+        uses: taiki-e/install-action@v2.48.5
         with:
           tool: cargo-hack
 
@@ -80,7 +80,7 @@ jobs:
         with:
           toolchain: ${{ vars.RUST_VERSION_API_DIFF }}
 
-      - uses: taiki-e/install-action@v2.48.1
+      - uses: taiki-e/install-action@v2.48.5
         with:
           tool: cargo-public-api
 
