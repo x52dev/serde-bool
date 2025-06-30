@@ -13,12 +13,12 @@
         devShells.default = pkgs.mkShell {
           packages = [
             config.formatter
+            pkgs.cargo-nextest
+            pkgs.cargo-shear
             pkgs.fd
             pkgs.just
             pkgs.nodePackages.prettier
             pkgs.taplo
-            pkgs.cargo-shear
-            pkgs.cargo-nextest
           ] ++ lib.optional pkgs.stdenv.isDarwin [
             pkgs.pkgsBuildHost.libiconv
           ];

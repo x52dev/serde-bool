@@ -37,15 +37,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
       - name: Install Rust (${{ matrix.toolchain.name }})
         uses: actions-rust-lang/setup-rust-toolchain@v1.12.0
         with:
           toolchain: ${{ matrix.toolchain.version }}
-
-      - name: Install just, cargo-nextest
-        uses: taiki-e/install-action@v2.50.10
-        with:
-          tool: just,cargo-nextest
 
       - name: Workaround MSRV issues
         if: matrix.toolchain.name == 'msrv'
