@@ -12,16 +12,21 @@ msrv_rustup := "+" + msrv
 # Check project.
 check: && clippy
     just --unstable --fmt --check
-    fd -e=md -e=yml --exec-batch prettier --check
-    taplo lint
+    fd --hidden -e=md -e=yml --exec-batch prettier --check
+    fd --hidden -e=toml --exec-batch taplo format --check
+    fd --hidden -e=toml --exec-batch taplo lint
     cargo +nightly fmt -- --check
 
 # Format project.
 fmt:
     just --unstable --fmt
-    fd -e=md -e=yml --exec-batch prettier --write
-    taplo format
+    fd --hidden -e=md -e=yml --exec-batch prettier --write
+    fd --hidden -e=toml --exec-batch taplo format
     cargo +nightly fmt
+
+[private]
+downgrade-for-msrv:
+    # no downgrades currently necessary
 
 # Clippy check workspace.
 clippy:
@@ -37,7 +42,7 @@ test:
 
 # Run workspace test suite using MSRV.
 test-msrv:
-    @just test +1.56.1
+    @just toolchain={{ msrv_rustup }} test
 
 # Run workspace test suite, capturing coverage.
 test-coverage:

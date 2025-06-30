@@ -16,36 +16,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  msrv:
-    name: MSRV Verify
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust (MSRV)
-        uses: actions-rust-lang/setup-rust-toolchain@v1.13.0
-        with:
-          toolchain: '1.56'
-
-      - name: Install cargo-hack
-        uses: taiki-e/install-action@v2.54.3
-        with:
-          tool: cargo-hack
-
-      - name: Generate MSRV lockfile
-        run: cargo hack --remove-dev-deps generate-lockfile
-
-      - name: Check
-        run: cargo check --workspace --all-features
+  read_msrv:
+    name: Read MSRV
+    uses: actions-rust-lang/msrv/.github/workflows/msrv.yml@v0.1.0
 
   test:
-    name: Test
+    needs: read_msrv
+
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - { name: msrv, version: '${{ needs.read_msrv.outputs.msrv }}' }
+          - { name: stable, version: stable }
+
+    name: Test / ${{ matrix.toolchain.name }}
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Rust (stable)
-        uses: actions-rust-lang/setup-rust-toolchain@v1.13.0
+      - name: Install Rust (${{ matrix.toolchain.name }})
+        uses: actions-rust-lang/setup-rust-toolchain@v1.12.0
+        with:
+          toolchain: ${{ matrix.toolchain.version }}
+
+      - name: Install just, cargo-nextest
+        uses: taiki-e/install-action@v2.50.10
+        with:
+          tool: just,cargo-nextest
+
+      - name: Workaround MSRV issues
+        if: matrix.toolchain.name == 'msrv'
+        run: just downgrade-for-msrv
 
       - name: Test
-        run: cargo test --workspace --all-features
+        run: just test
