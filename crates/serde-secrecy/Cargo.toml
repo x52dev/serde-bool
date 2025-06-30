@@ -2,6 +2,8 @@
 name = "serde-secrecy"
 version = "0.2.3"
 description = "Serde support for secrecy types"
+categories = ["encoding"]
+keywords = ["serde", "utilities", "serialization", "deserialization"]
 authors.workspace = true
 repository.workspace = true
 license.workspace = true

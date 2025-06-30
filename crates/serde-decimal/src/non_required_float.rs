@@ -1,7 +1,8 @@
 //! Serialization and deserialization of not required but not nullable decimals as floats.
 
-use rust_decimal::Decimal;
 use std::fmt::{self};
+
+use rust_decimal::Decimal;
 
 struct OptionDecimalVisitor;
 
@@ -20,6 +21,9 @@ impl<'de> serde::de::Visitor<'de> for OptionDecimalVisitor {
     }
 }
 
+/// Non-required float-form decimal deserializer.
+///
+/// See [module docs](self) for more.
 pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<rust_decimal::Decimal>, D::Error>
 where
     D: serde::de::Deserializer<'de>,
@@ -27,6 +31,9 @@ where
     deserializer.deserialize_option(OptionDecimalVisitor)
 }
 
+/// Non-required float-form decimal serializer.
+///
+/// See [module docs](self) for more.
 pub fn serialize<S>(value: &Option<rust_decimal::Decimal>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
@@ -42,7 +49,7 @@ mod tests {
     struct Foo {
         #[serde(default)]
         #[serde(skip_serializing_if = "Option::is_none")]
-        #[serde(with = "crate::serde::rust_decimal::non_required_float")]
+        #[serde(with = "crate::non_required_float")]
         foo: Option<rust_decimal::Decimal>,
     }
 
@@ -54,7 +61,10 @@ mod tests {
 
     #[test]
     fn foo_serialize_some() {
-        let serialized = serde_json::to_string(&Foo { foo: Some(dec!(0.1)) }).unwrap();
+        let serialized = serde_json::to_string(&Foo {
+            foo: Some(dec!(0.1)),
+        })
+        .unwrap();
         assert_eq!(serialized, r#"{"foo":0.1}"#);
     }
 
@@ -85,7 +95,9 @@ mod tests {
     #[test]
     fn bar_serialize_some() {
         let serialized = serde_json::to_string(&Bar {
-            foo: Foo { foo: Some(dec!(0.1)) },
+            foo: Foo {
+                foo: Some(dec!(0.1)),
+            },
         })
         .unwrap();
         assert_eq!(serialized, r#"{"foo":0.1}"#);

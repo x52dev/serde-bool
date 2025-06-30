@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -16,6 +17,8 @@
             pkgs.just
             pkgs.nodePackages.prettier
             pkgs.taplo
+            pkgs.cargo-shear
+            pkgs.cargo-nextest
           ] ++ lib.optional pkgs.stdenv.isDarwin [
             pkgs.pkgsBuildHost.libiconv
           ];

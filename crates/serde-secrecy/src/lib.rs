@@ -1,7 +1,6 @@
 //! Serde support for [`secrecy`] types.
 
-use secrecy::ExposeSecret as _;
-use secrecy::SecretString;
+use secrecy::{ExposeSecret as _, SecretString};
 use serde::Serializer;
 
 /// Enables serialization of [`secrecy::SecretString`] fields by exposing the inner string.
@@ -13,7 +12,7 @@ use serde::Serializer;
 /// # use secrecy::SecretString;
 /// #[derive(Debug, Serialize)]
 /// struct Login {
-///     #[serde(serialize_with = "openapi_util::serde::expose_secret_string")]
+///     #[serde(serialize_with = "serde_secrecy::expose_secret_string")]
 ///     password: SecretString,
 /// }
 ///
@@ -33,8 +32,9 @@ pub fn expose_secret_string<S: Serializer>(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde::Serialize;
+
+    use super::*;
 
     #[test]
     fn serialize_secret_string() {

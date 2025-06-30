@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-crates = ["crates/*"]
+members = ["crates/*"]
 
 [workspace.package]
 authors = ["Rob Ede <robjtede@icloud.com>"]
@@ -10,3 +10,9 @@ edition = "2021"
 rust-version = "1.56"
 
 [workspace.dependencies]
+
+[workspace.lints.rust]
+rust_2018_idioms = "deny"
+nonstandard_style = "deny"
+future_incompatible = "deny"
+missing_docs = { level = "warn", priority = -1 }

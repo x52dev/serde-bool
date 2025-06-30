@@ -4,20 +4,31 @@
 //! * `#[serde(with = "serde_with::rust::double_option")]`
 //! * `#[serde(with = "rust_decimal::serde::float")]`
 
-pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<Option<rust_decimal::Decimal>>, D::Error>
+/// Double-option float-form decimal deserializer.
+///
+/// See [module docs](self) for more.
+pub fn deserialize<'de, D>(
+    deserializer: D,
+) -> Result<Option<Option<rust_decimal::Decimal>>, D::Error>
 where
     D: serde::de::Deserializer<'de>,
 {
-    crate::serde::rust_decimal::nullable_float::deserialize(deserializer).map(Some)
+    crate::nullable_float::deserialize(deserializer).map(Some)
 }
 
-pub fn serialize<S>(value: &Option<Option<rust_decimal::Decimal>>, serializer: S) -> Result<S::Ok, S::Error>
+/// Double-option float-form decimal serializer.
+///
+/// See [module docs](self) for more.
+pub fn serialize<S>(
+    value: &Option<Option<rust_decimal::Decimal>>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
 {
     match value {
         None => serializer.serialize_unit(),
-        Some(v) => crate::serde::rust_decimal::nullable_float::serialize(v, serializer),
+        Some(v) => crate::nullable_float::serialize(v, serializer),
     }
 }
 
@@ -29,7 +40,7 @@ mod tests {
     struct Foo {
         #[serde(skip_serializing_if = "Option::is_none")]
         #[serde(default)]
-        #[serde(with = "crate::serde::rust_decimal::double_option_float")]
+        #[serde(with = "crate::double_option_float")]
         foo: Option<Option<rust_decimal::Decimal>>,
     }
 

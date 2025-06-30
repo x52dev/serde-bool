@@ -1,7 +1,9 @@
 [package]
 name = "serde-decimal"
 version = "0.2.3"
-description = "Careful serialization of rust_decimal types."
+description = "Careful serialization of rust_decimal types"
+categories = ["encoding"]
+keywords = ["serde", "utilities", "serialization", "deserialization"]
 authors.workspace = true
 repository.workspace = true
 license.workspace = true

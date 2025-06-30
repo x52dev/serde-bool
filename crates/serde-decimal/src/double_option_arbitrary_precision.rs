@@ -1,23 +1,35 @@
-//! Combination of the serde rules from [rust_decimal::serde::arbitrary_precision] and `serde_with::rust::double_option`.
+//! Combination of the serde rules from [`rust_decimal::serde::arbitrary_precision`] and
+//! `serde_with::rust::double_option`.
 //!
 //! This is necessary because it is not possible to apply multiple `#[serde(with = ...)]` attributes:
 //! * `#[serde(with = "serde_with::rust::double_option")]`
 //! * `#[serde(with = "rust_decimal::serde::arbitrary_precision")]`
 
-pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<Option<rust_decimal::Decimal>>, D::Error>
+/// Double-option arbitrary-precision decimal deserializer.
+///
+/// See [module docs](self) for more.
+pub fn deserialize<'de, D>(
+    deserializer: D,
+) -> Result<Option<Option<rust_decimal::Decimal>>, D::Error>
 where
     D: serde::de::Deserializer<'de>,
 {
-    crate::serde::rust_decimal::nullable_arbitrary_precision::deserialize(deserializer).map(Some)
+    crate::nullable_arbitrary_precision::deserialize(deserializer).map(Some)
 }
 
-pub fn serialize<S>(value: &Option<Option<rust_decimal::Decimal>>, serializer: S) -> Result<S::Ok, S::Error>
+/// Double-option arbitrary-precision decimal serializer.
+///
+/// See [module docs](self) for more.
+pub fn serialize<S>(
+    value: &Option<Option<rust_decimal::Decimal>>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
 {
     match value {
         None => serializer.serialize_unit(),
-        Some(v) => crate::serde::rust_decimal::nullable_arbitrary_precision::serialize(v, serializer),
+        Some(v) => crate::nullable_arbitrary_precision::serialize(v, serializer),
     }
 }
 
@@ -29,7 +41,7 @@ mod tests {
     struct Foo {
         #[serde(skip_serializing_if = "Option::is_none")]
         #[serde(default)]
-        #[serde(with = "crate::serde::rust_decimal::double_option_arbitrary_precision")]
+        #[serde(with = "crate::double_option_arbitrary_precision")]
         foo: Option<Option<rust_decimal::Decimal>>,
     }
 

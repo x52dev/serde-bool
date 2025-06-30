@@ -2,7 +2,12 @@ version: 0.2
 words:
   - clippy
   - MSRV
+  - nextest
+  - nixos
+  - nixpkgs
+  - pkgs
   - RUSTDOCFLAGS
   - rustup
   - serde
+  - stdenv
   - taplo
