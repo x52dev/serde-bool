@@ -1,0 +1,8 @@
+version: 0.2
+words:
+  - clippy
+  - MSRV
+  - RUSTDOCFLAGS
+  - rustup
+  - serde
+  - taplo

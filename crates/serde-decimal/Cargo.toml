@@ -1,0 +1,25 @@
+[package]
+name = "serde-decimal"
+version = "0.2.3"
+description = "Careful serialization of rust_decimal types."
+authors.workspace = true
+repository.workspace = true
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+rust-decimal-arbitrary-precision = ["rust_decimal/serde-with-arbitrary-precision"]
+
+[dependencies]
+rust_decimal = { version = "1.33", features = ["serde-with-float", "serde-with-str"] }
+serde = "1"
+
+[dev-dependencies]
+rust_decimal_macros = "1.33"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[lints]
+workspace = true

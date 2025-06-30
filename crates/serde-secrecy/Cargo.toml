@@ -1,0 +1,23 @@
+[package]
+name = "serde-secrecy"
+version = "0.2.3"
+description = "Serde support for secrecy types"
+authors.workspace = true
+repository.workspace = true
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[features]
+default = []
+
+[dependencies]
+secrecy = "0.10"
+serde = "1"
+
+[dev-dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[lints]
+workspace = true

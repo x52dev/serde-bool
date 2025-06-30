@@ -20,8 +20,7 @@ Single value, true or false, boolean deserializers.
 
 ## Examples
 
-Supporting serde untagged enums where only one boolean value is valid, allowing fallthrough to
-the next variant. Avoids need to wrap all fields in `Option<_>` just in case feature is disabled.
+Supporting serde untagged enums where only one boolean value is valid, allowing fallthrough to the next variant. Avoids need to wrap all fields in `Option<_>` just in case feature is disabled.
 
 ```rust
 #[derive(Debug, serde::Deserialize)]
