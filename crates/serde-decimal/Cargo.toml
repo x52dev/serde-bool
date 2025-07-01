@@ -1,6 +1,6 @@
 [package]
 name = "serde-decimal"
-version = "0.2.3"
+version = "0.2.4"
 description = "Careful serialization of rust_decimal types"
 categories = ["encoding"]
 keywords = ["serde", "utilities", "serialization", "deserialization"]
@@ -9,6 +9,10 @@ repository.workspace = true
 license.workspace = true
 edition.workspace = true
 rust-version.workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 default = []

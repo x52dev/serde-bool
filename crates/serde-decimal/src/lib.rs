@@ -23,6 +23,8 @@
 //! * use `nullable_arbitrary_precision` for `Option<Decimal>` where the field is required but may
 //!   be null.
 
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
 pub mod double_option_float;
 pub mod non_required_float;
 pub mod nullable_float;
