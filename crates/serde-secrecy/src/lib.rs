@@ -1,5 +1,7 @@
 //! Serde support for [`secrecy`] types.
 
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
 use secrecy::{ExposeSecret as _, SecretString};
 use serde::Serializer;
 
