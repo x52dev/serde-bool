@@ -2,6 +2,7 @@ version: 0.2
 words:
   - cachix
   - clippy
+  - docsrs
   - MSRV
   - nextest
   - nixos
